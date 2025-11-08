@@ -3,3 +3,8 @@
 -- Add any additional options here
 
 vim.opt.scrolloff = 8
+
+-- enable auto wrap
+
+vim.opt.swapfile = false
+-- auto comp
