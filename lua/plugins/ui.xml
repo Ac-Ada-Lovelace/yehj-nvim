@@ -1,0 +1,14 @@
+
+<view>
+  <col>
+  <searchbar/>
+    <listview>
+  <listitemview></listitemview>
+  <listitemview></listitemview>
+    </listview>
+  </col>
+  <col>
+    <termpreview></preview>
+  </col>
+
+</view>

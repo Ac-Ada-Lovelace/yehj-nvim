@@ -1,3 +1,5 @@
+local float_term
+
 return {
   {
     "CRAG666/code_runner.nvim",
@@ -32,17 +34,6 @@ return {
     keys = {
       { "<leader>jR", ":'<,'>SnipRun<CR>", mode = "v", desc = "Run selection" },
       { "<leader>jc", ":SnipRun<CR>", desc = "Run current file" },
-    },
-  },
-
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    config = function()
-      require("toggleterm").setup()
-    end,
-    keys = {
-      { "<leader>jt", "<cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
     },
   },
 }
