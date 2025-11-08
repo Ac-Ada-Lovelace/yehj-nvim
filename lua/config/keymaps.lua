@@ -20,7 +20,26 @@ local function toggle_lazygit_through_floaterm()
   return ToggleTerm
 end
 
+local function get_a_float_term(cmd)
+  return require("toggleterm.terminal").Terminal:new({
+    cmd = cmd,
+    hidden = true,
+    direction = "float",
+    float_opts = {
+      border = "curved",
+    },
+  })
+end
+
 -- set gg to lazygit
 vim.keymap.set("n", "<leader>gt", function()
-  toggle_lazygit_through_floaterm():toggle()
+  get_a_float_term("lazygit"):toggle()
 end, { desc = "Toggle LazyGit" })
+-- pop a input, and get a float terminal to run the input command
+vim.keymap.set("n", "<leader>jj", function()
+  vim.ui.input({ prompt = "Command to run in float terminal: " }, function(input)
+    if input and input ~= "" then
+      get_a_float_term(input):toggle()
+    end
+  end)
+end, { desc = "Run command in floating terminal" })
