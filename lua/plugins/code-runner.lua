@@ -1,5 +1,3 @@
-local float_term
-
 return {
   {
     "CRAG666/code_runner.nvim",
@@ -18,7 +16,7 @@ return {
     end,
     keys = {
       { "<leader>jr", ":RunCode<CR>", desc = "Run code" },
-      { "<leader>jf", ":RunFile<CR>", desc = "Run file" },
+      { "<leader>jF", ":RunFile<CR>", desc = "Run file" },
       { "<leader>jp", ":RunProject<CR>", desc = "Run project" },
     },
   },
@@ -33,7 +31,7 @@ return {
     end,
     keys = {
       { "<leader>jR", ":'<,'>SnipRun<CR>", mode = "v", desc = "Run selection" },
-      { "<leader>jc", ":SnipRun<CR>", desc = "Run current file" },
+      { "<leader>jC", ":SnipRun<CR>", desc = "Run current file" },
     },
   },
 }
