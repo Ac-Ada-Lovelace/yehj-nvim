@@ -1,0 +1,24 @@
+{
+	"UVAOJ TMPLATE": {
+		"prefix": ["uvaoj"],
+		"body": [
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"",
+			"int main() {",
+			"    ios::sync_with_stdio(false);",
+			"    cin.tie(nullptr);",
+			"    ${0}",
+			"}"
+		],
+		"description": "常用 C++ 主函数模板"
+	},
+	"READ INPUT FROM FILE": {
+		"prefix": ["uvaio"],
+		"body": [
+			"    freopen(\"input.txt\", \"r\", stdin);",
+			"    freopen(\"output.txt\", \"w\", stdout);"
+		],
+		"description": "从文件读取输入并将输出写入文件"
+	}
+}

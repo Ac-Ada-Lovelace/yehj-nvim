@@ -1,0 +1,94 @@
+-- Overseer 推荐快捷键配置
+-- 复制到你的 keymaps.lua 或相应配置文件
+
+-- 基本任务管理
+vim.keymap.set("n", "<leader>rr", "<cmd>OverseerRun<cr>", { desc = "Run task" })
+vim.keymap.set("n", "<leader>rt", "<cmd>OverseerToggle<cr>", { desc = "Toggle task list" })
+vim.keymap.set("n", "<leader>ra", "<cmd>OverseerQuickAction<cr>", { desc = "Task action" })
+vim.keymap.set("n", "<leader>ri", "<cmd>OverseerInfo<cr>", { desc = "Task info" })
+
+-- 快速运行/重启（推荐 F5）
+vim.keymap.set("n", "<F5>", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks({ recent_first = true })
+  if vim.tbl_isempty(tasks) then
+    -- 没有任务，显示选择器
+    vim.cmd("OverseerRun")
+  else
+    -- 重启最近的任务
+    overseer.run_action(tasks[1], "restart")
+  end
+end, { desc = "Run/Restart recent task" })
+
+-- 停止当前任务
+vim.keymap.set("n", "<F6>", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks({ recent_first = true })
+  if not vim.tbl_isempty(tasks) then
+    overseer.run_action(tasks[1], "stop")
+  end
+end, { desc = "Stop recent task" })
+
+-- 快速打开/关闭任务窗口
+vim.keymap.set("n", "<leader>ro", "<cmd>OverseerOpen<cr>", { desc = "Open task list" })
+vim.keymap.set("n", "<leader>rc", "<cmd>OverseerClose<cr>", { desc = "Close task list" })
+
+-- 任务构建和测试（针对项目）
+vim.keymap.set("n", "<leader>rb", function()
+  vim.cmd("OverseerRun")
+  -- 这会打开选择器，你可以选择 build 任务
+end, { desc = "Build" })
+
+-- 运行带输入的 C# 文件（OJ 模式）
+vim.keymap.set("n", "<leader>roi", function()
+  local overseer = require("overseer")
+  -- 查找 "C#: Run with input file" 任务
+  local template = overseer.get_template("C#: Run with input file")
+  if template then
+    overseer.run_template({ name = "C#: Run with input file" })
+  else
+    vim.notify("C# input file task not available", vim.log.levels.WARN)
+  end
+end, { desc = "Run C# with input file" })
+
+-- 清理已完成任务
+vim.keymap.set("n", "<leader>rC", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks()
+  for _, task in ipairs(tasks) do
+    if task:is_complete() then
+      task:dispose()
+    end
+  end
+  vim.notify("Cleared completed tasks", vim.log.levels.INFO)
+end, { desc = "Clear completed tasks" })
+
+-- 显示最近任务的输出
+vim.keymap.set("n", "<leader>rl", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks({ recent_first = true })
+  if not vim.tbl_isempty(tasks) then
+    overseer.run_action(tasks[1], "open float")
+  end
+end, { desc = "Show recent task output" })
+
+--[[
+推荐的按键映射说明：
+
+<leader>r* - 所有 Run/Task 相关操作
+  <leader>rr - 运行任务（显示选择器）
+  <leader>rt - 切换任务列表
+  <leader>ra - 任务快捷操作
+  <leader>ri - 任务信息
+  <leader>ro - 打开任务列表
+  <leader>rc - 关闭任务列表
+  <leader>rb - 构建
+  <leader>roi - 运行带输入（OJ 模式）
+  <leader>rl - 显示最近任务输出
+  <leader>rC - 清理已完成任务
+
+<F5> - 快速运行/重启（最常用）
+<F6> - 停止任务
+
+根据你的习惯自由调整！
+]]

@@ -3,3 +3,13 @@ WRN 2025-11-07T22:56:51.374 ?.44189    server_start:197: Failed to start server:
 WRN 2025-11-07T22:58:57.986 ?.44592    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.44592.0
 WRN 2025-11-07T22:59:27.748 ?.44657    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.44657.0
 WRN 2025-11-07T22:59:33.423 ?.44677    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.44677.0
+WRN 2025-11-21T14:51:32.491 ?.9237     server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.9237.0
+WRN 2025-11-21T14:52:24.019 ?.9832     server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.9832.0
+WRN 2025-11-21T16:45:54.464 ?.83222    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.83222.0
+WRN 2025-11-21T16:46:04.500 ?.83284    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.83284.0
+WRN 2025-11-21T16:46:08.598 ?.83309    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.83309.0
+WRN 2025-11-21T16:47:51.371 ?.84020    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.84020.0
+WRN 2025-11-21T16:47:55.551 ?.84047    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.84047.0
+WRN 2025-11-21T16:49:56.949 ?.86153    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.86153.0
+WRN 2025-11-27T15:00:59.505 ?.15797    server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.15797.0
+ERR 2025-11-27T15:00:59.584 ?.15797    pty_proc_spawn:182: forkpty failed: Permission denied
