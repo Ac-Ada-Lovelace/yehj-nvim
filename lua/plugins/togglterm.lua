@@ -83,7 +83,7 @@ return {
         end,
         open_mapping = [[<C-\>]],
         hide_numbers = true,
-        shade_terminals = true,
+        shade_terminals = false,
         shading_factor = 2,
         persist_mode = true,
         persist_size = true,
@@ -92,9 +92,9 @@ return {
         close_on_exit = true,
         float_opts = {
           border = "curved",
-        winblend = 0,
-      },
-    })
+          winblend = 0,
+        },
+      })
     end,
     keys = {
       {
@@ -132,7 +132,7 @@ return {
         desc = "Toggle Codex terminal",
       },
       {
-        "<leader>jj",
+        "<leader>jJ",
         toggle_command_runner,
         mode = { "n" },
         desc = "Run command in floating terminal",

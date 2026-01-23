@@ -25,10 +25,10 @@ function M.setup()
       -- 如果不在项目中，停止 LSP
       if not is_in_project() then
         vim.defer_fn(function()
-          -- 停止当前 buffer 的 OmniSharp
+          -- 停止当前 buffer 的 OmniSharp（避免单文件误启动/报错）
           local clients = vim.lsp.get_clients({ bufnr = 0, name = "omnisharp" })
           for _, client in ipairs(clients) do
-            vim.lsp.buf_detach_client(0, client.id)
+            vim.lsp.stop_client(client.id, true)
           end
         end, 100)
       end

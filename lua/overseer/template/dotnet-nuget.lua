@@ -52,7 +52,17 @@ return {
   end,
   condition = {
     callback = function()
-      return vim.fn.executable("dotnet") == 1
+      -- Only show if dotnet is available and we're in a .NET project
+      if vim.fn.executable("dotnet") ~= 1 then
+        return false
+      end
+
+      local buf = vim.api.nvim_get_current_buf()
+      local path = vim.api.nvim_buf_get_name(buf)
+      local start = path ~= "" and vim.fs.dirname(path) or vim.loop.cwd()
+      local csproj = vim.fs.find({ "*.csproj", "*.fsproj" }, { upward = true, type = "file", path = start })[1]
+
+      return csproj ~= nil
     end,
   },
   tags = { overseer.TAG.BUILD },

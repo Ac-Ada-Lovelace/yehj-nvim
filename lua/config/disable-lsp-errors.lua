@@ -1,3 +1,6 @@
+if true then
+  return {}
+end
 -- 过滤掉特定的 LSP 错误消息
 
 -- 原始的 vim.notify

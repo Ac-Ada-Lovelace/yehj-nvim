@@ -67,6 +67,18 @@ vim.api.nvim_create_autocmd({ "TermOpen", "TermEnter", "BufEnter" }, {
     vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], opts)
     vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], opts)
 
+    -- Reduce UI overhead for terminal buffers to improve responsiveness.
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.signcolumn = "no"
+    vim.opt_local.cursorline = false
+    vim.opt_local.cursorcolumn = false
+    vim.opt_local.foldcolumn = "0"
+    vim.opt_local.list = false
+    vim.opt_local.wrap = false
+    vim.opt_local.spell = false
+    vim.opt_local.colorcolumn = ""
+
     vim.b[buf].lazyvim_terminal_keymaps_applied = true
   end,
 })
@@ -81,3 +93,22 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = false
   end,
 })
+
+local colorscheme_persist = vim.api.nvim_create_augroup("lazyvim_colorscheme_persist", { clear = true })
+
+-- Persist the last chosen colorscheme so <leader>uC survives restarts.
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = colorscheme_persist,
+  callback = function()
+    local name = vim.g.colors_name
+    if not name or name == "" then
+      return
+    end
+    local theme_file = vim.fn.stdpath("config") .. "/after/plugin/theme.lua"
+    vim.fn.mkdir(vim.fn.fnamemodify(theme_file, ":h"), "p")
+    vim.fn.writefile({ string.format('vim.cmd("colorscheme %s")', name) }, theme_file)
+  end,
+})
+
+require("config.transparent")
+require("config.factorio")

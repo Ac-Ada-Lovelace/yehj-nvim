@@ -1,25 +1,13 @@
 return {
   {
     "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
     opts = function(_, opts)
-      -- Lower Copilot node heap to avoid runaway memory use
-      vim.env.NODE_OPTIONS = vim.env.NODE_OPTIONS or "--max-old-space-size=512"
+      -- Give Copilot's node runtime a bit more headroom so it doesn't OOM in large files
+      vim.env.NODE_OPTIONS = vim.env.NODE_OPTIONS or "--max-old-space-size=1536"
 
-      -- Force inline suggestions with sane defaults and leave the panel disabled
-      opts.copilot_model = "claude-3.7-sonnet"
-      opts.suggestion = vim.tbl_deep_extend("force", {
-        enabled = true,
-        auto_trigger = true,
-        debounce = 75,
-        keymap = {
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<C-]>",
-        },
-      }, opts.suggestion or {})
-      opts.panel = vim.tbl_deep_extend("force", {
-        enabled = false,
-      }, opts.panel or {})
+      -- 禁用 suggestion 和 panel，完全交由 blink-cmp 处理
 
       -- Ensure Copilot shuts down when Neovim exits to avoid orphaned node servers
       vim.api.nvim_create_autocmd("VimLeavePre", {

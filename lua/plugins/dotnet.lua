@@ -4,11 +4,40 @@ return {
     opts = function(_, opts)
       local lspconfig_util = require("lspconfig.util")
       opts.servers = opts.servers or {}
-      opts.servers.csharp_ls = {
-        root_dir = function(fname)
-          return lspconfig_util.root_pattern("*.sln", "*.csproj", ".git")(fname)
+      local data_dir = vim.fn.stdpath("data")
+      local mason_bin = data_dir .. "/mason/bin/omnisharp"
+      local mason_bin_alt = data_dir .. "/mason/bin/OmniSharp"
+      local omnisharp_bin = vim.fn.executable(mason_bin) == 1 and mason_bin
+        or (vim.fn.executable(mason_bin_alt) == 1 and mason_bin_alt)
+        or (vim.fn.executable("omnisharp") == 1 and "omnisharp")
+        or "OmniSharp"
+
+      opts.servers.omnisharp = {
+        cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+        filetypes = { "cs" },
+        root_dir = function(bufnr, on_dir)
+          local fname = vim.api.nvim_buf_get_name(bufnr)
+          local root = lspconfig_util.root_pattern("*.sln", "*.slnx", "*.csproj", ".git")(fname)
+          on_dir(root)
         end,
+        single_file_support = false,
+
+        -- Full-solution analysis (not just opened buffers).
+        analyze_open_documents_only = false,
+
+        -- Better completion/import experience.
+        enable_import_completion = true,
+        enable_roslyn_analyzers = true,
+        enable_editorconfig_support = true,
+
+        -- Ensure workspace loads fully (useful for navigation/diagnostics across the solution).
+        -- If you later feel OmniSharp too heavy, set this to true to reduce load.
+        -- MsBuild = { LoadProjectsOnDemand = false },
       }
+
+      -- Filter known noisy OmniSharp notifications.
+      require("config.disable-lsp-errors")
+
       return opts
     end,
   },
@@ -17,7 +46,7 @@ return {
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
-        "csharp-language-server",
+        "omnisharp",
         "netcoredbg",
       })
     end,
