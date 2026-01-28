@@ -8,7 +8,9 @@ return {
       require("blink.cmp").setup(opts)
 
       -- 修复窗口残留问题：退出插入模式时刷新屏幕
+      local redraw_group = vim.api.nvim_create_augroup("lazyvim_blink_cmp_redraw", { clear = true })
       vim.api.nvim_create_autocmd("InsertLeave", {
+        group = redraw_group,
         callback = function()
           vim.cmd("redraw")
         end,

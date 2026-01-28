@@ -1,6 +1,7 @@
 return {
   {
     "theHamsta/nvim-dap-virtual-text",
+    optional = true,
     opts = function(_, opts)
       opts = opts or {}
       opts.clear_on_continue = true

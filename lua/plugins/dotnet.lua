@@ -15,10 +15,8 @@ return {
       opts.servers.omnisharp = {
         cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
         filetypes = { "cs" },
-        root_dir = function(bufnr, on_dir)
-          local fname = vim.api.nvim_buf_get_name(bufnr)
-          local root = lspconfig_util.root_pattern("*.sln", "*.slnx", "*.csproj", ".git")(fname)
-          on_dir(root)
+        root_dir = function(fname)
+          return lspconfig_util.root_pattern("*.sln", "*.slnx", "*.csproj", ".git")(fname)
         end,
         single_file_support = false,
 
@@ -53,6 +51,8 @@ return {
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
+    cmd = { "DapInstall", "DapUninstall" },
+    dependencies = { "mfussenegger/nvim-dap" },
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       if not vim.tbl_contains(opts.ensure_installed, "netcoredbg") then
@@ -62,7 +62,8 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    opts = function(_, opts)
+    ft = { "cs" },
+    config = function()
       local dap = require("dap")
       if not dap.adapters.netcoredbg then
         dap.adapters.netcoredbg = {
@@ -82,7 +83,6 @@ return {
             end,
           },
         }
-      return opts
     end,
   },
 }

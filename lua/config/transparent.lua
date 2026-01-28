@@ -1,3 +1,21 @@
+local function is_windows()
+  if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+    return true
+  end
+  if vim.fn.has("wsl") == 1 then
+    return true
+  end
+  local sysname = vim.loop.os_uname().sysname
+  if not sysname then
+    return false
+  end
+  return sysname:find("Windows") or sysname:find("MSYS") or sysname:find("CYGWIN")
+end
+
+if is_windows() then
+  return {}
+end
+
 local function apply_transparent()
   local groups = {
     "Normal",

@@ -14,18 +14,21 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
   group = autosave,
   callback = function(event)
     local buf = event.buf
+    if not vim.api.nvim_buf_is_valid(buf) then
+      return
+    end
     local bo = vim.bo[buf]
     if bo.readonly or not bo.modifiable or bo.buftype ~= "" then
       return
     end
 
-    local name = vim.api.nvim_buf_get_name(buf)
-    if name == "" then
+    local ok_name, name = pcall(vim.api.nvim_buf_get_name, buf)
+    if not ok_name or name == "" then
       return
     end
 
-    if vim.api.nvim_buf_get_option(buf, "modified") then
-      vim.api.nvim_buf_call(buf, function()
+    if bo.modified then
+      pcall(vim.api.nvim_buf_call, buf, function()
         vim.cmd("silent! write")
       end)
     end
